@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+
+  <link href='https://css.gg/calculator.css' rel='stylesheet'>
+
+  <style>
+    .title h1,
+    .title i {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .text-input {
+      font-weight: 600;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="bg-light">
+    <div class="container">
+      <div class="title">
+        <h1>Ferramentas LA</h1>
+        <i class="gg-calculator"></i>
+      </div>
+
+      <form class="pb-5">
+        <h3>Calculadora de Handicap Asiático</h3>
+        <div class="form-check form-switch mt-3">
+          <input class="form-check-input" type="checkbox" id="addNewOdd">
+          <label class="form-check-label text-input" id="textCheckbox"> Adicionar o terceiro Odd</label>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <p class="text-input text-center" style="color: #146c43;">Juice</p>
+              <input type="text" class="form-control" id="juice" value="0.0%" disabled>
+            </div>
+          </div>
+          <div class="col">
+            <p class="text-input text-center" style="color: #3d8bfd;">Odd1</p>
+
+            <input type="text" class="form-control" id="odd1" value="2.0" placeholder="odd Home">
+          </div>
+          <div class="col">
+            <p class="text-input text-center" style="color: #fd7e14;">Odd2</p>
+            <input type="text" class="form-control" id="odd2" value="2.0" placeholder="odd Away">
+          </div>
+
+          <div class="col" id="newOdd" style="display: none;">
+            <p class="text-input text-center" style="color: #9B3036;">Odd3</p>
+            <input type="text" class="form-control" id="odd3" value="2.0" placeholder="odd Away">
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+  <script>
+
+    const checkbox = document.getElementById('addNewOdd')
+    console.log("checkbox ", checkbox);
+
+    checkbox.addEventListener('change', (event) => {
+      if (event.currentTarget.checked) {
+        document.getElementById('newOdd').style.display = 'block';
+        document.querySelector("#textCheckbox").innerHTML = 'Remover o terceiro Odd';
+        document.getElementById("odd3").value = '2.0';
+
+      } else {
+        document.getElementById('newOdd').style.display = 'none';
+        document.getElementById("odd1").value = '2.0';
+        document.getElementById("odd2").value = '2.0';
+        document.querySelector("#textCheckbox").innerHTML = 'Adicionar o terceiro Odd';
+      }
+    })
+
+    function juice_calc() {
+      var odd1 = numeral($("#odd1").val()).value();
+      var odd2 = numeral($("#odd2").val()).value();
+      var odd3 = numeral($("#odd3").val()).value();
+      v = (1 / odd1 + 1 / odd2 / odd3) - 1;
+      v = 100.0 * v;
+      $("#juice").val(v.toFixed(2) + " %");
+    }
+
+    /* Máscaras ER */
+    function mascara(o, f) {
+      v_obj = o
+      v_fun = f
+      setTimeout("execmascara()", 1)
+    }
+    function execmascara() {
+      v_obj.value = v_fun(v_obj.value)
+    }
+    function mtel(v) {
+      p = v.selectionStart
+      v = v.replace(/[^0-9\.]/g, "");
+      if (p > v.length) p = v.length;
+      v.selectionStart = p
+      juice_calc();
+      return v;
+    }
+    function id(el) {
+      return document.getElementById(el);
+    }
+
+    window.onload = function () {
+      id('odd1').onkeypress = function () {
+        mascara(this, mtel);
+        juice_calc();
+      }
+      id('odd2').onkeypress = function () {
+        mascara(this, mtel);
+      }
+      id('odd3').onkeypress = function () {
+        mascara(this, mtel);
+      }
+    }
+
+  </script>
+</body>
+
+</html>

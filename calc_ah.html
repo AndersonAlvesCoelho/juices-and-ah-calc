@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+
+  <link href='https://css.gg/calculator.css' rel='stylesheet'>
+
+  <style>
+    .title h1,
+    .title i {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .text-input {
+      font-weight: 600;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="bg-light">
+    <div class="container">
+      <div class="title">
+        <h1>Ferramentas LA</h1>
+        <i class="gg-calculator"></i>
+      </div>
+
+      <form class="pb-5">
+        <h3>Calculadora de Juice</h3>
+        <!-- <label class="field field_v2">
+          <input class="field__input" placeholder="e.g. Melnikov">
+          <span class="field__label-wrap">
+            <span class="field__label">Last name</span>
+          </span>
+        </label> -->
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <p class="text-input text-center ">Home</p>
+              <input type="text" class="form-control" id="home" value="37%" placeholder="Home">
+            </div>
+          </div>
+          <div class="col">
+            <p class="text-input text-center ">Draw</p>
+            <input type="text" class="form-control" id="draw" value="29%" placeholder="Draw">
+          </div>
+          <div class="col">
+            <p class="text-input text-center ">Away</p>
+            <input type="text" class="form-control" id="away" value="34%" placeholder="Away">
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <p class="text-input text-center ">HOME AH</p>
+              <select class="form-select" id="home_option" aria-label="Default select example">
+                <option>Home+1,5</option>
+                <option>Home+1,25</option>
+                <option>Home+1,0</option>
+                <option>Home+0,75</option>
+                <option>Home+0,5</option>
+                <option>Home+0,25</option>
+                <option>HomeDNB</option>
+                <option>Home-0,25</option>
+                <option>Home-0,5</option>
+                <option>Home-0,75</option>
+                <option>Home-1,0</option>
+                <option>Home-1,25</option>
+                <option>Home-1,5</option>
+              </select>
+            </div>
+          </div>
+          <div class="col">
+            <p class="text-input text-center ">AWAY AH</p>
+            <input type="text" id="away_option" class="form-control" disabled>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col">
+            <p class="text-input text-center ">HOME ODD JUSTA</p>
+            <input id="home_result" value="0.0" type="text" placeholder="oddDraw" class="form-control" disabled>
+          </div>
+          <div class="col">
+            <p class="text-input text-center ">AWAY ODD JUSTA</p>
+            <input id="away_result" value="0.0" type="text" placeholder="oddAway" class="form-control" disabled>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+  <script>
+
+    // Calculadora de Juice
+    function calc_aposta(value, draw, aposta) {
+      oposite = 1 - (value + draw);
+
+      if (aposta == "-1,5") { return 1 / (value * 0.6); }
+      if (aposta == "+1,5") { op = calc_aposta(oposite, draw, "-1,5"); return 1 / (1 - 1 / op); }
+      if (aposta == "-1,25") { return 1 / (value * 0.6001) - 0.33; }
+      if (aposta == "+1,25") { op = calc_aposta(oposite, draw, "-1,25"); return 1 / (1 - 1 / op); }
+      if (aposta == "+1,0") { return 1 / (1 - oposite) * 0.6 + 0.4; }
+      if (aposta == "-1,0") { op = calc_aposta(oposite, draw, "+1,0"); return 1 / (1 - 1 / op); }
+      if (aposta == "+0,75") { return 1 / (1 - oposite) * 0.8 + 0.2; }
+      if (aposta == "-0,75") { op = calc_aposta(oposite, draw, "+0,75"); return 1 / (1 - 1 / op); }
+      if (aposta == "+0,5") { return 1 / (1 - oposite); }
+      if (aposta == "-0,5") { return 1 / value; }
+      if (aposta == "+0,25") { return (1 - draw / 2) / (value + draw / 2); }
+      if (aposta == "-0,25") { return (1 - draw / 2) / value; }
+
+      if (aposta == "DNB") { return (1 - draw) / value; }
+      return -1;
+    }
+
+    function draw_calc() {
+      var home = numeral($("#home").val()).value();
+      var away = numeral($("#away").val()).value();
+
+      var draw = (1.0 - (home + away)) * 100.0;
+      $("#draw").val(draw.toFixed(1) + " %");
+    }
+
+    function final_result() {
+      var home = numeral($("#home").val()).value();
+      var away = numeral($("#away").val()).value();
+      draw = 1 - (home + away);
+
+      if (draw < 0.0) {
+        $("#home_result").val("Dados Invalidos");
+        $("#away_result").val("Dados Invalidos");
+      } else {
+        var tipo_aposta_home = $("#home_option option:selected").text().replace("Home", "");
+        var tipo_aposta_away = $("#home_option option:selected").text();
+        tipo_aposta_away = tipo_aposta_away.replace("Home-", "+").replace("Home+", "-").replace("HomeDNB", "DNB");
+
+        $("#home_result").val(calc_aposta(home, draw, tipo_aposta_home).toFixed(2));
+        $("#away_result").val(calc_aposta(away, draw, tipo_aposta_away).toFixed(2));
+      }
+    }
+
+    /* Máscaras ER */
+    function mascara(o, f) {
+      v_obj = o
+      v_fun = f
+      setTimeout("execmascara()", 1)
+    }
+
+    function execmascara() {
+      v_obj.value = v_fun(v_obj.value)
+    }
+
+    function mtel(v) {
+      p = v.selectionStart
+      v = v.replace(/[^0-9\.]/g, "");
+      if (p > v.length) p = v.length;
+      v.selectionStart = p
+      v = v.replace(/(.*)$/, "$1%");
+      return v;
+    }
+
+    function id(el) {
+      return document.getElementById(el);
+    }
+
+    function adjust_values(master_obj, slave_obj) {
+      var master = numeral(master_obj.val()).value();
+      var slave = numeral(slave_obj.val()).value();
+      if (master + slave > 1) {
+        slave = (1 - master) * 100;
+        slave_obj.val(slave.toFixed(1) + " %");
+      }
+    }
+
+    window.onload = function () {
+      // Calculadora de Juice
+      id('home_option').onchange = function () {
+        var val = $("#home_option option:selected").text();
+        val = val.replace("Home-", "Away+").replace("Home+", "Away-").replace("HomeDNB", "AwayDNB");
+        $('#away_option').val(val);
+        final_result()
+      }
+      id('home').onkeypress = function () {
+        mascara(this, mtel);
+      }
+      id('away').onkeypress = function () {
+        mascara(this, mtel);
+      }
+      id('draw').onkeypress = function () {
+        mascara(this, mtel);
+      }
+    }
+
+  </script>
+</body>
+
+</html>
