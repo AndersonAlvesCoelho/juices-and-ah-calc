@@ -14,6 +14,7 @@
   <link href='https://css.gg/calculator.css' rel='stylesheet'>
   <link href='https://css.gg/close-r.css' rel='stylesheet'>
   <style>
+
     .title h1,
     .title i {
       display: inline-block;
@@ -38,14 +39,17 @@
       color: #212529;
       text-decoration: underline;
     }
+    .odd {
+      border-radius: 10px;
+    }
   </style>
 
 </head>
 
 <body>
 
-  <div class="bg-light">
-    <div class="container">
+  <div class="bg-light odd">
+    <div class="container ">
       <div class="row d-flex justify-content-center ">
         <div class="col mt-5">
           <div class="title">
@@ -65,7 +69,7 @@
             <h3>Calculadora de Juice</h3>
 
             <div class="title mt-3">
-              
+
               <a class="btn-clear" onclick="clearInput(true)">
                 <i class="gg-close-r"></i>
                 Limpar
@@ -78,8 +82,8 @@
               <input type="checkbox">
               <h5 class="text-center">Tipo de mercado</h5>
               <span class="alert alert-secondary">
-                <span class="text-white" onclick="odd3(false)">Bilateral</span>
-                <span class="text-white" onclick="odd3(true)">Trilateral</span>
+                <span class="text-white" onclick="odd3(!triplaBoolen)">Bilateral</span>
+                <span class="text-white" onclick="odd3(!triplaBoolen)">Trilateral</span>
                 <a class="btn btn-dark"></a>
               </span>
             </label>
@@ -132,15 +136,19 @@
     var triplaBoolen = false;
 
     function odd3(odd) {
+      console.log("odd ", odd);
+
       if (odd) {
-        document.getElementById('newOdd').style.display = 'block';
-        document.getElementById("odd3").value = '2.0';
+          document.getElementById('newOdd').style.display = 'block';
+        //   document.getElementById("myBtn").disabled = true;
+        //   document.getElementById("odd3").value = '2.0';
         triplaBoolen = true;
 
       } else {
-        document.getElementById('newOdd').style.display = 'none';
-        document.getElementById("odd1").value = '2.0';
-        document.getElementById("odd2").value = '2.0';
+          document.getElementById('newOdd').style.display = 'none';
+        //   document.getElementById("myBtn").disabled = true;
+        //   document.getElementById("odd1").value = '2.0';
+        //   document.getElementById("odd2").value = '2.0';
         triplaBoolen = false;
 
       }
